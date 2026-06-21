@@ -93,14 +93,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const mainImg = document.querySelector('#productMainImage');
             const thumbnails = document.querySelector('#imageThumbnails');
             
-            if (this.product.images?.length) {
-                mainImg.src = this.product.images[0];
-                thumbnails.innerHTML = this.product.images.map(img => `
-                    <img src="${img}" 
-                         alt="Thumbnail" 
-                         class="${img === this.product.images[0] ? 'active' : ''}"
-                         onclick="changeImage('${img}')">
-                `).join('');
+            const validImages = (this.product.images || []).filter(Boolean);
+            if (validImages.length > 0) {
+                if (mainImg) mainImg.src = validImages[0];
+                if (thumbnails) {
+                    thumbnails.innerHTML = validImages.map(img => `
+                        <img src="${img}" 
+                             alt="Thumbnail" 
+                             class="${img === validImages[0] ? 'active' : ''}"
+                             onclick="changeImage('${img}')">
+                    `).join('');
+                }
+            } else {
+                if (mainImg) mainImg.src = 'Assets/Image/Img_1.jpg';
+                if (thumbnails) thumbnails.innerHTML = '';
             }
         }
 

@@ -18,12 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('productForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const imageVal = document.getElementById('image').value.trim();
     const productData = {
       name:        document.getElementById('name').value.trim(),
       price:       parseFloat(document.getElementById('price').value),
       type:        document.getElementById('type').value,
       category:    document.getElementById('category').value,
-      images:      [document.getElementById('image').value.trim()],
+      images:      imageVal ? [imageVal] : [],
       metal: {
         karat:  document.getElementById('karatage').value,
         type:   document.getElementById('metalType').value,
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(editingProductId ? 'Product updated successfully!' : 'Product added successfully!');
       editingProductId = null;
       e.target.reset();
-      loadProducts();
+      window.location.href = 'Product.html';
     } catch (err) {
       console.error('Save product error:', err);
       alert('Error saving product: ' + err.message);
