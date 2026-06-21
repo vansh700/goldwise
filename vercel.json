@@ -3,15 +3,34 @@
   "rewrites": [
     { "source": "/", "destination": "/Home.html" },
     { "source": "/home", "destination": "/Home.html" },
+    { "source": "/Home", "destination": "/Home.html" },
+
     { "source": "/singleProduct", "destination": "/singleProduct.html" },
     { "source": "/singleproduct", "destination": "/singleProduct.html" },
+    { "source": "/singleproduct.html", "destination": "/singleProduct.html" },
+
+    { "source": "/Product", "destination": "/Product.html" },
     { "source": "/product", "destination": "/Product.html" },
+    { "source": "/product.html", "destination": "/Product.html" },
+
     { "source": "/login", "destination": "/login.html" },
+    { "source": "/Login", "destination": "/login.html" },
+
     { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/Admin", "destination": "/admin.html" },
+
     { "source": "/cart", "destination": "/cart.html" },
+    { "source": "/Cart", "destination": "/cart.html" },
+
     { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/Profile", "destination": "/profile.html" },
+
     { "source": "/about", "destination": "/about_Us.html" },
+    { "source": "/about_Us", "destination": "/about_Us.html" },
+
     { "source": "/gold-rate", "destination": "/Gold_Rate.html" },
+    { "source": "/Gold_Rate", "destination": "/Gold_Rate.html" },
+
     { "source": "/checkout", "destination": "/checkout.html" }
   ]
 }
