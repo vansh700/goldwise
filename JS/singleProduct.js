@@ -1,4 +1,7 @@
 // singleProduct.js
+const PRODUCTS_API = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+  ? "http://localhost:5500/api/products"
+  : "https://goldwise-jewelry-backend.onrender.com/api/products";
 document.addEventListener('DOMContentLoaded', () => {
     class ProductController {
         constructor() {
@@ -17,20 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const params = new URLSearchParams(window.location.search);
                 const productId = params.get('id');
-                
-                // Load from localStorage
-                const products = JSON.parse(localStorage.getItem('products')) || [];
-                this.product = products.find(p => p.id === productId);
+
+                if (productId) {
+                    // Fetch from backend API using MongoDB _id
+                    const res = await fetch(`${PRODUCTS_API}/${productId}`);
+                    if (res.ok) {
+                        this.product = await res.json();
+                    }
+                }
 
                 if (!this.product) {
-                    // Fallback to URL parameters
+                    // Fallback to URL parameters (legacy support)
                     this.product = {
-                        id: productId || Date.now().toString(),
+                        _id: productId || Date.now().toString(),
                         name: params.get('name'),
                         price: params.get('price'),
                         type: params.get('type'),
                         category: params.get('category'),
-                        images: [params.get('img') || 'default.png'],
+                        images: [params.get('img') || 'Assets/Image/Img_1.jpg'],
                         metal: {
                             karat: params.get('karat') || 22,
                             type: params.get('metalType') || 'Gold',
@@ -148,24 +155,33 @@ function toggleDetails(element) {
 }
 
 // Add to Cart functionality
-function addToCart() {
+async function addToCart() {
+    const user = JSON.parse(localStorage.getItem('gw_user'));
+    if (!user) return window.location.href = 'login.html';
+
     const params = new URLSearchParams(window.location.search);
     const productId = params.get('id');
-    const products = JSON.parse(localStorage.getItem('products')) || [];
-    const product = products.find(p => p.id === productId);
 
-    if (product) {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const existing = cart.find(item => item.id === product.id);
-        
-        if (existing) {
-            existing.quantity++;
-        } else {
-            cart.push({ ...product, quantity: 1 });
+    try {
+        const res = await fetch(`${PRODUCTS_API}/${productId}`);
+        const product = await res.json();
+
+        if (product && product._id) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(item => item._id === product._id);
+
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${product.name} added to cart!`);
         }
-        
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert(`${product.name} added to cart!`);
+    } catch (err) {
+        console.error('Add to cart error:', err);
+        alert('Could not add to cart. Please try again.');
     }
 }
 

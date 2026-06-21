@@ -22,6 +22,88 @@ mongoose.connect(MONGODB_URI, {
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log("MongoDB connection error:", err));
 
+// ─── Product Schema ──────────────────────────────────────────────────────────
+const productSchema = new mongoose.Schema({
+  name:        { type: String, required: true, trim: true },
+  price:       { type: Number, required: true },
+  type:        { type: String, default: '' },
+  category:    { type: String, default: '' },
+  images:      [String],
+  metal: {
+    karat:  String,
+    type:   String,
+    weight: Number
+  },
+  weight:      Number,
+  clarity:     String,
+  description: String,
+  brand:       String,
+  collection:  String,
+  productCode: { type: String, unique: true, sparse: true },
+  updatedAt:   Date
+}, { timestamps: true });
+
+const Product = mongoose.model("Product", productSchema);
+
+// ─── Product Routes ───────────────────────────────────────────────────────────
+
+// GET all products (optionally filter by ?category=gold&type=rings)
+app.get("/api/products", async (req, res) => {
+  try {
+    const filter = {};
+    if (req.query.category) filter.category = req.query.category;
+    if (req.query.type)     filter.type     = req.query.type;
+    const products = await Product.find(filter).sort({ createdAt: -1 });
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching products" });
+  }
+});
+
+// GET single product by id
+app.get("/api/products/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching product" });
+  }
+});
+
+// POST create product (admin only — protected)
+app.post("/api/products", authenticateToken, async (req, res) => {
+  try {
+    const product = new Product(req.body);
+    const saved = await product.save();
+    res.status(201).json(saved);
+  } catch (err) {
+    res.status(400).json({ message: "Error creating product", error: err.message });
+  }
+});
+
+// PUT update product (admin only — protected)
+app.put("/api/products/:id", authenticateToken, async (req, res) => {
+  try {
+    const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updated) return res.status(404).json({ message: "Product not found" });
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ message: "Error updating product", error: err.message });
+  }
+});
+
+// DELETE product (admin only — protected)
+app.delete("/api/products/:id", authenticateToken, async (req, res) => {
+  try {
+    const deleted = await Product.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: "Product not found" });
+    res.json({ message: "Product deleted successfully" });
+  } catch (err) {
+    res.status(400).json({ message: "Error deleting product", error: err.message });
+  }
+});
+
 // Purchase Schema
 const purchaseSchema = new mongoose.Schema({
   saleDate: { type: Date, required: true },
