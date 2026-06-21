@@ -42,9 +42,7 @@ function renderProduct(product, index, container) {
   card.dataset.type     = (product.type || '').toLowerCase();
 
   card.innerHTML = `
-    <div class="product-image">
-      <img src="${product.images?.[0] || 'Assets/Image/Img_1.jpg'}" alt="${product.name}" class="product-image">
-    </div>
+    <img src="${product.images?.[0] || 'Assets/Image/Img_1.jpg'}" alt="${product.name}" class="product-image">
     <div class="product-details">
       <h2 class="product-name">${product.name}</h2>
       <p class="product-price">${formatPrice(product.price)}</p>
