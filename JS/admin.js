@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       description: document.getElementById('description').value,
       brand:       document.getElementById('brand').value,
       collection:  document.getElementById('collection').value,
-      productCode: document.getElementById('productCode').value,
+      productCode: document.getElementById('productCode').value.trim() || undefined,
       updatedAt:   new Date().toISOString()
     };
 
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.message || 'Server error');
+        throw new Error(err.error || err.message || 'Server error');
       }
 
       alert(editingProductId ? 'Product updated successfully!' : 'Product added successfully!');

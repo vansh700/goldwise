@@ -74,10 +74,14 @@ app.get("/api/products/:id", async (req, res) => {
 // POST create product (admin only — protected by admin password gate in frontend)
 app.post("/api/products", async (req, res) => {
   try {
+    if (req.body.productCode === "") {
+      delete req.body.productCode;
+    }
     const product = new Product(req.body);
     const saved = await product.save();
     res.status(201).json(saved);
   } catch (err) {
+    console.error("POST /api/products error:", err);
     res.status(400).json({ message: "Error creating product", error: err.message });
   }
 });
@@ -85,10 +89,14 @@ app.post("/api/products", async (req, res) => {
 // PUT update product (admin only — protected by admin password gate in frontend)
 app.put("/api/products/:id", async (req, res) => {
   try {
+    if (req.body.productCode === "") {
+      delete req.body.productCode;
+    }
     const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updated) return res.status(404).json({ message: "Product not found" });
     res.json(updated);
   } catch (err) {
+    console.error("PUT /api/products error:", err);
     res.status(400).json({ message: "Error updating product", error: err.message });
   }
 });
