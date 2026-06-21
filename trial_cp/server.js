@@ -12,7 +12,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB Connection
-mongoose.connect("mongodb://localhost:27017/goldwise", {
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/goldwise";
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect("mongodb://localhost:27017/jewelryDB", { 
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/jewelryDB";
+mongoose.connect(MONGODB_URI, { 
   useNewUrlParser: true, 
   useUnifiedTopology: true 
 })
@@ -230,7 +231,7 @@ app.delete("/api/purchases/:id", async (req, res) => {
 });
 
 // Start server
-const PORT = 5500;
+const PORT = process.env.PORT || 5500;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
