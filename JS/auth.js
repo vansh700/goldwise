@@ -5,7 +5,7 @@
 
 const AUTH_API = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
   ? "http://localhost:5500/api/auth"
-  : "https://goldwise-backend.onrender.com/api/auth"; // REPLACE with your deployed backend URL
+  : "https://goldwise-jewelry-backend.onrender.com/api/auth";
 
 /** Save token + user to localStorage after login/register */
 function saveSession(token, user) {

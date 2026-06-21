@@ -1,7 +1,7 @@
 
 const API_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
   ? "http://localhost:5000/api/customers"
-  : "https://goldwise-customer-backend.onrender.com/api/customers"; // REPLACE with your deployed customer backend URL
+  : "https://goldwise-customer-backend.onrender.com/api/customers";
 
 // Get DOM Elements
 const customerNameInput = document.getElementById("customer-name");
