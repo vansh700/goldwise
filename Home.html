@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jewelry Website</title>
+    <title>GoldWise — Luxury Jewelry Collections</title>
+    <meta name="description" content="Discover premium gold, diamond, and platinum jewelry collections at GoldWise." />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="CSS/Home.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
+    <link rel="shortcut icon" type="image/png" href="Assets/logo/logo.jpg" />
   </head>
   <body>
     <header>
@@ -36,16 +37,16 @@
         </div>
       </div>
     </section> -->
-    <h1 class="title">Jewelry categories</h1>
-    <p class="subtitle">Categories Of Jewellery</p>
-    <div class="divider">
+    <h1 class="title" data-animate="fade-down">Jewelry Categories</h1>
+    <p class="subtitle" data-animate="fade-up" data-animate-delay="100">Categories Of Jewellery</p>
+    <div class="divider" data-animate="zoom-in" data-animate-delay="200">
         <div class="divider-line"></div>
         <i class="fa fa-hourglass-end divider-icon"></i>
         <div class="divider-line"></div>
     </div>
     <section id="collections" class="collections">
       <div class="container">
-        <div class="grid">
+        <div class="grid" data-animate-group>
           <a href="Product.html?page=goldProduct">
             <div class="card">
               <img src="Assets/Image/Gold-Designs.jpg" alt="Collection" />
@@ -66,20 +67,19 @@
           </a>  
         </div>
       </div>
-      
     </section>
-    <h1 class="title">Sort By Type</h1>
-    <p class="subtitle">Different Product Type Available </p>
-    <div class="divider">
+    <h1 class="title" data-animate="fade-down">Sort By Type</h1>
+    <p class="subtitle" data-animate="fade-up" data-animate-delay="100">Different Product Types Available</p>
+    <div class="divider" data-animate="zoom-in" data-animate-delay="150">
         <div class="divider-line"></div>
         <i class="fa fa-hourglass-end divider-icon"></i>
         <div class="divider-line"></div>
     </div>
     <section>
-      <div class="categories">
+      <div class="categories" data-animate-group>
           <a href="Product.html?page=ring">
             <div class="category">
-              <img alt="Mangalsutras" height="150" src="Assets/Image/Jewellery/Gold/GoldRing1.png" width="200"/>
+              <img alt="Rings" height="150" src="Assets/Image/Jewellery/Gold/GoldRing1.png" width="200"/>
               <div class="info">
                 <h3>Rings</h3>
                 <p>Explore<i class="fa fa-chevron-right"></i></p>
@@ -88,7 +88,7 @@
           </a>
           <a href="Product.html?page=earRings">
           <div class="category">
-            <img alt="Mangalsutras" height="150" src="Assets/Image/Jewellery/Diamond/DiamondEarRing1.png" width="200"/>
+            <img alt="Earrings" height="150" src="Assets/Image/Jewellery/Diamond/DiamondEarRing1.png" width="200"/>
             <div class="info">
               <h3>Earrings</h3>
               <p>Explore<i class="fa fa-chevron-right"></i></p>
@@ -97,7 +97,7 @@
           </a>
           <a href="Product.html?page=bangle">
           <div class="category">
-            <img alt="Mangalsutras" height="150" src="Assets/Image/Jewellery/Diamond/DiamondBangle1.png" width="200"/>
+            <img alt="Bangles" height="150" src="Assets/Image/Jewellery/Diamond/DiamondBangle1.png" width="200"/>
             <div class="info">
               <h3>Bangles</h3>
               <p>Explore<i class="fa fa-chevron-right"></i></p>
@@ -106,24 +106,25 @@
           </a>
       </div>
     </section>
-    <h1 class="title">Advertisnment</h1>
-    <p class="subtitle"></p>
-    <div class="divider">
+    <h1 class="title" data-animate="fade-down">Advertisement</h1>
+    <p class="subtitle" data-animate="fade-up" data-animate-delay="100">Watch Our Latest Collection</p>
+    <div class="divider" data-animate="zoom-in" data-animate-delay="150">
         <div class="divider-line"></div>
         <i class="fa fa-hourglass-end divider-icon"></i>
         <div class="divider-line"></div>
     </div>
-    <section class="video-section">
+    <section class="video-section" data-animate="zoom-in">
       <div class="video-container">
-        <video width="1280" height="720" autoplay muted loop>
+        <video width="1280" height="720" autoplay muted loop playsinline>
           <source src="Assets/Video/V1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
     </section>
     <div id="footerTag"></div>
+    <script src="JS/auth.js"></script>
+    <script src="JS/animations.js"></script>
     <script src="JS/index.js"></script>
     <script src="JS/HeaderFooterNavbar.js"></script>
-    <script></script>
   </body>
 </html>

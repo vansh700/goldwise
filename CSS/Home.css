@@ -225,6 +225,134 @@ video {
 }
 a{
     text-decoration: none;
-    /* color: red; */
     color: #7a2a2a;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   SCROLL REVEAL ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Base state — invisible before animation */
+.animate-ready {
+    opacity: 0;
+    will-change: opacity, transform;
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Animate variants */
+.animate-fade-up    { transform: translateY(36px); }
+.animate-fade-down  { transform: translateY(-36px); }
+.animate-fade-left  { transform: translateX(-36px); }
+.animate-fade-right { transform: translateX(36px); }
+.animate-zoom-in    { transform: scale(0.88); }
+.animate-fade       { /* no transform offset */ }
+
+/* Triggered state */
+.animate-in {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CARD HOVER — GOLD SHIMMER + LIFT
+   ═══════════════════════════════════════════════════════════════════ */
+.card,
+.category,
+.category-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+    cursor: pointer;
+}
+.card::after,
+.category::after,
+.category-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        105deg,
+        transparent 20%,
+        rgba(201, 168, 76, 0.18) 40%,
+        rgba(232, 201, 122, 0.25) 50%,
+        rgba(201, 168, 76, 0.18) 60%,
+        transparent 80%
+    );
+    transform: translateX(-160%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+.card:hover::after,
+.category:hover::after,
+.category-card:hover::after {
+    transform: translateX(160%);
+}
+.card:hover,
+.category:hover,
+.category-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.15), 0 0 0 2px rgba(201,168,76,0.25);
+}
+.card h3,
+.category .info h3 {
+    transition: color 0.3s ease;
+}
+.card:hover h3,
+.category:hover .info h3 {
+    color: #b8702a;
+}
+
+/* Ripple effect */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(201, 168, 76, 0.3);
+    width: 10px; height: 10px;
+    transform: translate(-50%, -50%) scale(0);
+    animation: rippleAnim 0.65s ease-out forwards;
+    pointer-events: none;
+    z-index: 10;
+}
+@keyframes rippleAnim {
+    to { transform: translate(-50%, -50%) scale(30); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TITLE SECTION ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════ */
+.title {
+    background: linear-gradient(135deg, #7b2b2a, #c9a84c, #7b2b2a);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textShimmer 4s ease infinite;
+}
+@keyframes textShimmer {
+    0%   { background-position: 0% center; }
+    50%  { background-position: 100% center; }
+    100% { background-position: 0% center; }
+}
+
+/* Divider pulse */
+.divider-icon {
+    animation: iconPulse 2.5s ease-in-out infinite;
+}
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%       { transform: scale(1.2); opacity: 0.75; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   VIDEO SECTION ENTRANCE
+   ═══════════════════════════════════════════════════════════════════ */
+.video-section video {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+.video-section video:hover {
+    transform: scale(1.01);
+    box-shadow: 0 12px 48px rgba(0,0,0,0.7);
+}

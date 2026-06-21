@@ -1,36 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="CSS/login.css"></link>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoldWise — Sign In</title>
+  <meta name="description" content="Sign in or create your GoldWise account to access exclusive jewelry collections." />
+  <link rel="stylesheet" href="CSS/login.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="shortcut icon" type="image/png" href="Assets/logo/logo.jpg" />
 </head>
 <body>
 
-  <div class="login-container">
-    <h2>Create Account</h2>
-    <input type="text" id="username" class="input-field" placeholder="Username" required />
-    <input type="text" id="name" class="input-field" placeholder="Full Name" required />
-    <input type="email" id="email" class="input-field" placeholder="Email" required />
-    <input type="tel" id="phone" class="input-field" placeholder="Phone Number" required />
-    <input type="password" id="password" class="input-field" placeholder="Password" required />
-    <button class="login-btn" onclick="registerUser()">Register</button>
+  <!-- Animated background particles -->
+  <div class="bg-overlay"></div>
+  <div class="particles" id="particles"></div>
+
+  <div class="auth-wrapper">
+
+    <!-- Left Branding Panel -->
+    <div class="brand-panel">
+      <div class="brand-content">
+        <div class="brand-logo">
+          <span class="logo-icon">✦</span>
+          <h1>GoldWise</h1>
+        </div>
+        <p class="brand-tagline">Where Elegance Meets Tradition</p>
+        <div class="brand-features">
+          <div class="feature-item">
+            <i class="fa fa-shield"></i>
+            <span>Certified Authentic Jewelry</span>
+          </div>
+          <div class="feature-item">
+            <i class="fa fa-star"></i>
+            <span>Premium Gold & Diamond Collection</span>
+          </div>
+          <div class="feature-item">
+            <i class="fa fa-lock"></i>
+            <span>100% Secure Shopping</span>
+          </div>
+        </div>
+        <div class="brand-divider"></div>
+        <p class="brand-footer">Trusted by over <strong>50,000+</strong> customers</p>
+      </div>
+      <div class="brand-shimmer"></div>
+    </div>
+
+    <!-- Right Auth Panel -->
+    <div class="auth-panel">
+      <div class="auth-card" id="auth-card">
+
+        <!-- Tab Switcher -->
+        <div class="tab-switcher">
+          <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+          <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Create Account</button>
+          <div class="tab-indicator" id="tab-indicator"></div>
+        </div>
+
+        <!-- Error / Success Message -->
+        <div class="auth-message" id="auth-message" role="alert"></div>
+
+        <!-- ── LOGIN FORM ── -->
+        <form class="auth-form active" id="form-login" onsubmit="handleLogin(event)" novalidate>
+          <h2 class="form-title">Welcome Back</h2>
+          <p class="form-subtitle">Sign in to your GoldWise account</p>
+
+          <div class="input-group" id="ig-identifier">
+            <input type="text" id="login-identifier" class="input-field" placeholder=" " required autocomplete="username" />
+            <label for="login-identifier" class="floating-label">Email or Username</label>
+            <i class="fa fa-user input-icon"></i>
+            <span class="input-error" id="err-identifier"></span>
+          </div>
+
+          <div class="input-group" id="ig-password">
+            <input type="password" id="login-password" class="input-field" placeholder=" " required autocomplete="current-password" />
+            <label for="login-password" class="floating-label">Password</label>
+            <i class="fa fa-lock input-icon"></i>
+            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('login-password', this)" tabindex="-1">
+              <i class="fa fa-eye"></i>
+            </button>
+            <span class="input-error" id="err-login-password"></span>
+          </div>
+
+          <div class="form-options">
+            <label class="remember-me">
+              <input type="checkbox" id="remember-me" />
+              <span class="checkbox-custom"></span>
+              Remember me
+            </label>
+            <a href="#" class="forgot-link" onclick="showForgotMessage()">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="auth-btn" id="login-btn">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-loader" id="login-loader"></span>
+          </button>
+
+          <p class="switch-prompt">
+            New to GoldWise? <a href="#" onclick="switchTab('register')">Create an account</a>
+          </p>
+        </form>
+
+        <!-- ── REGISTER FORM ── -->
+        <form class="auth-form" id="form-register" onsubmit="handleRegister(event)" novalidate>
+          <h2 class="form-title">Create Account</h2>
+          <p class="form-subtitle">Join GoldWise — it only takes a minute</p>
+
+          <div class="input-row">
+            <div class="input-group">
+              <input type="text" id="reg-fullname" class="input-field" placeholder=" " required autocomplete="name" />
+              <label for="reg-fullname" class="floating-label">Full Name</label>
+              <i class="fa fa-id-card input-icon"></i>
+              <span class="input-error" id="err-fullname"></span>
+            </div>
+            <div class="input-group">
+              <input type="text" id="reg-username" class="input-field" placeholder=" " required autocomplete="off" />
+              <label for="reg-username" class="floating-label">Username</label>
+              <i class="fa fa-at input-icon"></i>
+              <span class="input-error" id="err-username"></span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <input type="email" id="reg-email" class="input-field" placeholder=" " required autocomplete="email" />
+            <label for="reg-email" class="floating-label">Email Address</label>
+            <i class="fa fa-envelope input-icon"></i>
+            <span class="input-error" id="err-email"></span>
+          </div>
+
+          <div class="input-group">
+            <input type="tel" id="reg-phone" class="input-field" placeholder=" " required autocomplete="tel" maxlength="10" />
+            <label for="reg-phone" class="floating-label">Phone Number</label>
+            <i class="fa fa-phone input-icon"></i>
+            <span class="input-error" id="err-phone"></span>
+          </div>
+
+          <div class="input-group" id="ig-reg-password">
+            <input type="password" id="reg-password" class="input-field" placeholder=" " required autocomplete="new-password" />
+            <label for="reg-password" class="floating-label">Password</label>
+            <i class="fa fa-lock input-icon"></i>
+            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('reg-password', this)" tabindex="-1">
+              <i class="fa fa-eye"></i>
+            </button>
+            <span class="input-error" id="err-reg-password"></span>
+          </div>
+
+          <!-- Password strength bar -->
+          <div class="strength-bar-wrapper">
+            <div class="strength-bar" id="strength-bar"></div>
+            <span class="strength-label" id="strength-label"></span>
+          </div>
+
+          <div class="terms-agree">
+            <label>
+              <input type="checkbox" id="terms-check" required />
+              <span class="checkbox-custom"></span>
+              I agree to the <a href="#">Terms of Service</a> &amp; <a href="#">Privacy Policy</a>
+            </label>
+            <span class="input-error" id="err-terms"></span>
+          </div>
+
+          <button type="submit" class="auth-btn" id="register-btn">
+            <span class="btn-text">Create Account</span>
+            <span class="btn-loader" id="register-loader"></span>
+          </button>
+
+          <p class="switch-prompt">
+            Already have an account? <a href="#" onclick="switchTab('login')">Sign in</a>
+          </p>
+        </form>
+
+      </div>
+    </div>
   </div>
 
+  <script src="JS/auth.js"></script>
   <script>
-    function registerUser() {
-      const username = document.getElementById('username').value;
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
+    const API_BASE = "http://localhost:5500/api/auth";
 
-      const user = { username, name, email, phone };
-      localStorage.setItem('user', JSON.stringify(user));
-      alert('Account created successfully!');
-      window.location.href = 'Home.html';
+    /* ── Tab switching ──────────────────────────────────────────── */
+    function switchTab(tab) {
+      const loginForm = document.getElementById("form-login");
+      const registerForm = document.getElementById("form-register");
+      const loginBtn = document.getElementById("tab-login");
+      const registerBtn = document.getElementById("tab-register");
+      const indicator = document.getElementById("tab-indicator");
+      const card = document.getElementById("auth-card");
+      clearMessage();
+
+      if (tab === "login") {
+        loginForm.classList.add("active");
+        registerForm.classList.remove("active");
+        loginBtn.classList.add("active");
+        registerBtn.classList.remove("active");
+        indicator.style.transform = "translateX(0)";
+      } else {
+        registerForm.classList.add("active");
+        loginForm.classList.remove("active");
+        registerBtn.classList.add("active");
+        loginBtn.classList.remove("active");
+        indicator.style.transform = "translateX(100%)";
+      }
+      card.classList.add("tab-switch");
+      setTimeout(() => card.classList.remove("tab-switch"), 400);
+    }
+
+    /* ── Message display ────────────────────────────────────────── */
+    function showMessage(text, type = "error") {
+      const el = document.getElementById("auth-message");
+      el.textContent = text;
+      el.className = `auth-message show ${type}`;
+      setTimeout(() => el.classList.remove("show"), 5000);
+    }
+    function clearMessage() {
+      const el = document.getElementById("auth-message");
+      el.className = "auth-message";
+    }
+
+    /* ── Field validation helper ────────────────────────────────── */
+    function setFieldError(errorId, message) {
+      const el = document.getElementById(errorId);
+      if (el) {
+        el.textContent = message;
+        el.classList.toggle("visible", !!message);
+      }
+    }
+    function clearFieldErrors() {
+      document.querySelectorAll(".input-error").forEach(e => {
+        e.textContent = "";
+        e.classList.remove("visible");
+      });
+    }
+
+    /* ── Password visibility toggle ────────────────────────────── */
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector("i");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.className = "fa fa-eye-slash";
+      } else {
+        input.type = "password";
+        icon.className = "fa fa-eye";
+      }
+    }
+
+    /* ── Password strength meter ─────────────────────────────── */
+    document.getElementById("reg-password")?.addEventListener("input", function () {
+      const val = this.value;
+      const bar = document.getElementById("strength-bar");
+      const label = document.getElementById("strength-label");
+      let strength = 0;
+      if (val.length >= 8) strength++;
+      if (/[A-Z]/.test(val)) strength++;
+      if (/[0-9]/.test(val)) strength++;
+      if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+      const levels = ["", "weak", "fair", "good", "strong"];
+      const labels = ["", "Weak", "Fair", "Good", "Strong"];
+      bar.className = `strength-bar ${levels[strength]}`;
+      label.textContent = labels[strength];
+    });
+
+    /* ── Login handler ──────────────────────────────────────────── */
+    async function handleLogin(e) {
+      e.preventDefault();
+      clearFieldErrors();
+      const identifier = document.getElementById("login-identifier").value.trim();
+      const password = document.getElementById("login-password").value;
+      const btn = document.getElementById("login-btn");
+      const loader = document.getElementById("login-loader");
+
+      let valid = true;
+      if (!identifier) { setFieldError("err-identifier", "Please enter your email or username."); valid = false; }
+      if (!password) { setFieldError("err-login-password", "Please enter your password."); valid = false; }
+      if (!valid) return;
+
+      btn.disabled = true;
+      btn.classList.add("loading");
+
+      try {
+        const res = await fetch(`${API_BASE}/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ identifier, password })
+        });
+        const data = await res.json();
+        if (!res.ok) { showMessage(data.message || "Login failed.", "error"); return; }
+
+        saveSession(data.token, data.user);
+        showMessage("Login successful! Redirecting...", "success");
+
+        // Redirect to intended page or Home
+        const params = new URLSearchParams(window.location.search);
+        const redirect = params.get("redirect");
+        setTimeout(() => {
+          window.location.href = redirect ? decodeURIComponent(redirect) : "Home.html";
+        }, 800);
+      } catch (err) {
+        showMessage("Connection failed. Is the server running?", "error");
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove("loading");
+      }
+    }
+
+    /* ── Register handler ───────────────────────────────────────── */
+    async function handleRegister(e) {
+      e.preventDefault();
+      clearFieldErrors();
+      const fullName = document.getElementById("reg-fullname").value.trim();
+      const username = document.getElementById("reg-username").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const phone = document.getElementById("reg-phone").value.trim();
+      const password = document.getElementById("reg-password").value;
+      const terms = document.getElementById("terms-check").checked;
+      const btn = document.getElementById("register-btn");
+
+      let valid = true;
+      if (!fullName) { setFieldError("err-fullname", "Full name is required."); valid = false; }
+      if (!username || username.length < 3) { setFieldError("err-username", "Username must be at least 3 characters."); valid = false; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setFieldError("err-email", "Enter a valid email address."); valid = false; }
+      if (!phone || !/^\d{10}$/.test(phone)) { setFieldError("err-phone", "Enter a valid 10-digit phone number."); valid = false; }
+      if (!password || password.length < 8) { setFieldError("err-reg-password", "Password must be at least 8 characters."); valid = false; }
+      if (!terms) { setFieldError("err-terms", "You must accept the terms to continue."); valid = false; }
+      if (!valid) return;
+
+      btn.disabled = true;
+      btn.classList.add("loading");
+
+      try {
+        const res = await fetch(`${API_BASE}/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, fullName, email, phone, password })
+        });
+        const data = await res.json();
+        if (!res.ok) { showMessage(data.message || "Registration failed.", "error"); return; }
+
+        saveSession(data.token, data.user);
+        showMessage("Account created! Welcome to GoldWise 🎉", "success");
+        setTimeout(() => { window.location.href = "Home.html"; }, 1000);
+      } catch (err) {
+        showMessage("Connection failed. Is the server running?", "error");
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove("loading");
+      }
+    }
+
+    /* ── Forgot password placeholder ────────────────────────────── */
+    function showForgotMessage() {
+      showMessage("Password reset: contact support at support@goldwise.in", "info");
+    }
+
+    /* ── Particle background ─────────────────────────────────────── */
+    (function spawnParticles() {
+      const container = document.getElementById("particles");
+      for (let i = 0; i < 22; i++) {
+        const p = document.createElement("div");
+        p.classList.add("particle");
+        p.style.left = `${Math.random() * 100}%`;
+        p.style.top = `${Math.random() * 100}%`;
+        p.style.animationDelay = `${Math.random() * 8}s`;
+        p.style.animationDuration = `${6 + Math.random() * 8}s`;
+        p.style.width = p.style.height = `${2 + Math.random() * 4}px`;
+        container.appendChild(p);
+      }
+    })();
+
+    /* ── If already logged in, redirect home ─────────────────────── */
+    if (isLoggedIn()) {
+      window.location.href = "Home.html";
     }
   </script>
-
 </body>
 </html>

@@ -1,112 +1,188 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense Calculator - GoldWise Jewelry</title>
-  <link rel="stylesheet" href="script.css">
+  <title>Expense Calculator - GoldWise Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../admin.css">
   
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-  <div class="calculator-container">
-    <h2>Jeweler Expense Calculator</h2>
 
-    <!-- Customer Purchase Section -->
-    <div class="customer-section">
-      <h3>Customer Purchase History</h3>
-      <div class="input-group">
-        <label for="sale-date">Sale Date</label>
-        <input type="date" id="sale-date" required>
-      </div>
-      <div class="input-group">
-        <label for="customer-name">Customer Name</label>
-        <input type="text" id="customer-name" placeholder="Enter customer name">
-      </div>
-      <div class="input-group">
-        <label for="purchase-item">Item Purchased</label>
-        <input type="text" id="purchase-item" placeholder="Enter item purchased">
-      </div>
-      <div class="input-group">
-        <label for="quantity">Quantity</label>
-        <input type="number" id="quantity" min="1" value="1" required>
-      </div>
-      <div class="input-group">
-        <label for="cost-price">Unit Cost (₹)</label>
-        <input type="number" id="cost-price" placeholder="Enter cost price">
-      </div>
-      <div class="input-group">
-        <label for="selling-price">Unit Price (₹)</label>
-        <input type="number" id="selling-price" placeholder="Enter selling price">
-      </div>
-      <div class="input-group">
-        <label for="payment-method">Payment Method</label>
-        <select id="payment-method">
-          <option value="cash">Cash</option>
-          <option value="card">Credit Card</option>
-          <option value="upi">UPI</option>
-        </select>
-      </div>
-      <button id="add-purchase-btn">Add Purchase</button>
-      <div class="summary-cards">
-        <div class="card">
-          <h4>Total Sales</h4>
-          <p id="total-sales">₹0.00</p>
-        </div>
-        <div class="card">
-          <h4>Total Costs</h4>
-          <p id="total-costs">₹0.00</p>
-        </div>
-        <div class="card">
-          <h4>Profit Margin</h4>
-          <p id="profit-margin">0%</p>
-        </div>
-      </div>
+  <div class="dashboard-wrapper">
       
-      <div class="purchase-history">
-        <h4>Purchase History</h4>
-        <table id="purchase-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Item</th>
-              <th>Qty</th>
-              <th>Unit Cost</th>
-              <th>Unit Price</th>
-              <th>Total Cost</th>
-              <th>Total Price</th>
-              <th>Payment Method</th>
-              <th>Profit/Loss</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-          <tfoot>
-            <tr>
-              <td colspan="6" style="text-align: right; font-weight: bold;">Total Profit/Loss:</td>
-              <td id="total-profit-loss" colspan="4">₹0.00</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
+      <!-- Persistent Sidebar -->
+      <aside class="sidebar">
+          <div class="sidebar-header">
+              <h2>GoldWise</h2>
+              <p>Admin Portal</p>
+          </div>
+          <ul class="sidebar-nav">
+              <li><a href="../admin.html"><i class="fa fa-box"></i> Manage Products</a></li>
+              <li><a href="../trial_cp/index.html"><i class="fa fa-users"></i> Customer Portfolio</a></li>
+              <li class="active"><a href="index.html"><i class="fa fa-calculator"></i> Expense Calculator</a></li>
+          </ul>
+      </aside>
 
-    <!-- Analytics and Export Sections -->
-    <div class="analytics-section">
-      <h3>Business Analytics</h3>
-      <div class="summary-cards">
-        <!-- Cards remain same -->
-      </div>
-      <canvas id="profitChart"></canvas>
-    </div>
-    <div class="export-section">
-      <button id="export-pdf" class="export-btn">Export as PDF</button>
-      <button id="export-csv" class="export-btn">Export as CSV</button>
-    </div>
+      <!-- Main Content Area -->
+      <main class="main-content">
+          
+          <!-- Top App Header -->
+          <header class="topbar">
+              <div class="breadcrumbs">
+                  <span>Admin Suite</span> <span class="separator">/</span> <span class="current">Expense Calculator</span>
+              </div>
+              <div class="topbar-actions">
+                  <span class="admin-profile"><i class="fa fa-user-circle"></i> Admin</span>
+                  <button class="btn-logout" onclick="logoutAdmin()"><i class="fa fa-sign-out"></i> Logout</button>
+              </div>
+          </header>
+
+          <!-- Page Specific Content -->
+          <div class="content-container">
+              
+              <!-- Premium Metric Cards for Calculator -->
+              <div class="metric-cards">
+                  <div class="metric-card">
+                      <div class="metric-icon green-bg"><i class="fa fa-line-chart"></i></div>
+                      <div class="metric-info">
+                          <h4>Total Sales</h4>
+                          <p id="total-sales">₹0.00</p>
+                      </div>
+                  </div>
+                  <div class="metric-card">
+                      <div class="metric-icon red-bg"><i class="fa fa-money"></i></div>
+                      <div class="metric-info">
+                          <h4>Total Costs</h4>
+                          <p id="total-costs">₹0.00</p>
+                      </div>
+                  </div>
+                  <div class="metric-card">
+                      <div class="metric-icon gold-bg"><i class="fa fa-percent"></i></div>
+                      <div class="metric-info">
+                          <h4>Profit Margin</h4>
+                          <p id="profit-margin">0%</p>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Top Row: Add Form & Analytics -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                  
+                  <!-- Add Purchase Form Card -->
+                  <div class="dashboard-card" style="margin-bottom: 0;">
+                      <div class="card-header">
+                          <h3>Record New Sale</h3>
+                      </div>
+                      <div class="card-body">
+                          <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+                              <div class="input-group" style="grid-column: 1 / -1;">
+                                  <label for="sale-date">Sale Date</label>
+                                  <input type="date" id="sale-date" required>
+                              </div>
+                              <div class="input-group">
+                                  <label for="customer-name">Customer Name</label>
+                                  <input type="text" id="customer-name" placeholder="Enter customer name">
+                              </div>
+                              <div class="input-group">
+                                  <label for="purchase-item">Item Purchased</label>
+                                  <input type="text" id="purchase-item" placeholder="Enter item">
+                              </div>
+                              <div class="input-group">
+                                  <label for="quantity">Quantity</label>
+                                  <input type="number" id="quantity" min="1" value="1" required>
+                              </div>
+                              <div class="input-group">
+                                  <label for="payment-method">Payment Method</label>
+                                  <select id="payment-method">
+                                      <option value="cash">Cash</option>
+                                      <option value="card">Credit Card</option>
+                                      <option value="upi">UPI</option>
+                                  </select>
+                              </div>
+                              <div class="input-group">
+                                  <label for="cost-price">Unit Cost (₹)</label>
+                                  <input type="number" id="cost-price" placeholder="Cost price">
+                              </div>
+                              <div class="input-group">
+                                  <label for="selling-price">Unit Price (₹)</label>
+                                  <input type="number" id="selling-price" placeholder="Selling price">
+                              </div>
+                          </div>
+                          <button id="add-purchase-btn" class="btn-primary" style="width: 100%; margin-top: 10px;">Add Purchase Record</button>
+                      </div>
+                  </div>
+
+                  <!-- Profit Chart Card -->
+                  <div class="dashboard-card" style="margin-bottom: 0;">
+                      <div class="card-header">
+                          <h3>Business Analytics</h3>
+                      </div>
+                      <div class="card-body">
+                          <canvas id="profitChart" style="max-height: 280px; width: 100%;"></canvas>
+                      </div>
+                  </div>
+
+              </div>
+
+              <!-- Purchase History Table Card -->
+              <div class="dashboard-card">
+                  <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                      <h3>Purchase History Ledger</h3>
+                      <div class="topbar-actions" style="gap: 10px;">
+                          <button id="export-pdf" class="btn-edit" style="border: 1px solid var(--border-color);"><i class="fa fa-file-pdf-o"></i> PDF</button>
+                          <button id="export-csv" class="btn-edit" style="border: 1px solid var(--border-color);"><i class="fa fa-file-excel-o"></i> CSV</button>
+                      </div>
+                  </div>
+                  <div class="card-body table-responsive">
+                      <table id="purchase-table">
+                          <thead>
+                              <tr>
+                                  <th>Date</th>
+                                  <th>Customer</th>
+                                  <th>Item</th>
+                                  <th>Qty</th>
+                                  <th>Unit Cost</th>
+                                  <th>Unit Price</th>
+                                  <th>Total Cost</th>
+                                  <th>Total Price</th>
+                                  <th>Method</th>
+                                  <th>Profit/Loss</th>
+                              </tr>
+                          </thead>
+                          <tbody></tbody>
+                          <tfoot>
+                              <tr>
+                                  <td colspan="6" style="text-align: right; font-weight: bold; background: var(--bg-color);">Total Profit/Loss:</td>
+                                  <td id="total-profit-loss" colspan="4" style="background: var(--bg-color); font-weight: bold; color: var(--success);">₹0.00</td>
+                              </tr>
+                          </tfoot>
+                      </table>
+                  </div>
+              </div>
+
+          </div>
+      </main>
   </div>
+
   <script src="script.js"></script>
   <script src="chart.js"></script>
+  <script>
+      function logoutAdmin() {
+          localStorage.removeItem("isLoggedIn");
+          window.location.href = "../admin.html";
+      }
+
+      function checkAuth() {
+          if (localStorage.getItem('isLoggedIn') !== 'true') {
+              window.location.href = "../admin.html";
+          }
+      }
+      checkAuth();
+  </script>
 </body>
 </html>

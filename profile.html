@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Profile</title>
+    <title>My Profile — GoldWise</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="CSS/profile.css">
   </head>
   <body>
@@ -15,16 +15,30 @@
     </header>
     <section id="profile" class="profile-section">
       <div class="profile-container">
-        <h2>User Profile</h2>
+        <h2>My Profile</h2>
         <div id="user-profile-info" class="profile-info">
           <!-- User's Data will be shown here -->
         </div>
-        <button id="logout-btn" class="logout-btn">Logout</button>
+        <button id="logout-btn" class="logout-btn" onclick="logout()">Sign Out</button>
         <br><br>
         <a href="Home.html"><button class="btn">Home</button></a>
       </div>
     </section>
     <div id="footerTag"></div>
+    <script src="JS/auth.js"></script>
+    <script>
+      requireAuth();
+      // Populate profile from JWT user data
+      const user = getUser();
+      if (user) {
+        const info = document.getElementById('user-profile-info');
+        info.innerHTML = `
+          <div class="profile-field"><span class="label">Full Name</span><span class="value">${user.fullName || '-'}</span></div>
+          <div class="profile-field"><span class="label">Username</span><span class="value">@${user.username || '-'}</span></div>
+          <div class="profile-field"><span class="label">Email</span><span class="value">${user.email || '-'}</span></div>
+        `;
+      }
+    </script>
     <script src="JS/HeaderFooterNavbar.js"></script>
     <script src="JS/profile.js"></script>
   </body>

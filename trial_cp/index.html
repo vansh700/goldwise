@@ -3,71 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Customer Portfolio - GoldWise Jewellery</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Customer Portfolio - GoldWise Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../admin.css">
 </head>
 <body>
-  <div class="portfolio-container">
-    <h2>Customer Portfolio</h2>
+  
+  <div class="dashboard-wrapper">
+      
+      <!-- Persistent Sidebar -->
+      <aside class="sidebar">
+          <div class="sidebar-header">
+              <h2>GoldWise</h2>
+              <p>Admin Portal</p>
+          </div>
+          <ul class="sidebar-nav">
+              <li><a href="../admin.html"><i class="fa fa-box"></i> Manage Products</a></li>
+              <li class="active"><a href="index.html"><i class="fa fa-users"></i> Customer Portfolio</a></li>
+              <li><a href="../1/index.html"><i class="fa fa-calculator"></i> Expense Calculator</a></li>
+          </ul>
+      </aside>
 
-    <!-- Add Customer Form -->
-    <div class="add-customer-form">
-      <h3>Add Customer Record</h3>
-      <div class="input-group">
-        <label for="customer-name">Customer Name</label>
-        <input type="text" id="customer-name" placeholder="Enter customer name">
-      </div>
-      <div class="input-group">
-        <label for="customer-gender">Gender</label>
-        <select id="customer-gender">
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="input-group">
-        <label for="customer-phone">Phone Number</label>
-        <input type="text" id="customer-phone" placeholder="Enter phone number">
-      </div>
-      <div class="input-group">
-        <label for="purchase-item">Item Purchased</label>
-        <input type="text" id="purchase-item" placeholder="Enter item purchased">
-      </div>
-      <div class="input-group">
-        <label for="purchase-date">Purchase Date</label>
-        <input type="date" id="purchase-date">
-      </div>
-      <div class="input-group">
-        <label for="item-price">Price (₹)</label>
-        <input type="number" id="item-price" placeholder="Enter item price">
-      </div>
-      <button id="add-customer-btn">Add Record</button>
-    </div>
+      <!-- Main Content Area -->
+      <main class="main-content">
+          
+          <!-- Top App Header -->
+          <header class="topbar">
+              <div class="breadcrumbs">
+                  <span>Admin Suite</span> <span class="separator">/</span> <span class="current">Customer Portfolio</span>
+              </div>
+              <div class="topbar-actions">
+                  <span class="admin-profile"><i class="fa fa-user-circle"></i> Admin</span>
+                  <button class="btn-logout" onclick="logoutAdmin()"><i class="fa fa-sign-out"></i> Logout</button>
+              </div>
+          </header>
 
-    <!-- Customer Portfolio Table -->
-    <div class="customer-portfolio">
-      <h3>Customer Records</h3>
-      <div class="search-bar">
-        <input type="text" id="search" placeholder="Search by name, phone, or item...">
-      </div>
-      <table id="customer-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Phone</th>
-            <th>Item</th>
-            <th>Purchase Date</th>
-            <th>Price (₹)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Customer records will be added here dynamically -->
-        </tbody>
-      </table>
-    </div>
+          <!-- Page Specific Content -->
+          <div class="content-container">
+              
+              <!-- Premium Metric Cards for Customers -->
+              <div class="metric-cards">
+                  <div class="metric-card">
+                      <div class="metric-icon blue-bg"><i class="fa fa-users"></i></div>
+                      <div class="metric-info">
+                          <h4>Total Customers</h4>
+                          <p id="metricTotalCustomers">0</p>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Add Customer Form Card -->
+              <div class="dashboard-card">
+                  <div class="card-header">
+                      <h3>Add Customer Record</h3>
+                  </div>
+                  <div class="card-body">
+                      <div class="add-customer-form">
+                          <div class="form-grid">
+                              <div class="input-group">
+                                  <label for="customer-name">Customer Name</label>
+                                  <input type="text" id="customer-name" placeholder="Enter full name">
+                              </div>
+                              <div class="input-group">
+                                  <label for="customer-gender">Gender</label>
+                                  <select id="customer-gender">
+                                      <option value="Male">Male</option>
+                                      <option value="Female">Female</option>
+                                      <option value="Other">Other</option>
+                                  </select>
+                              </div>
+                              <div class="input-group">
+                                  <label for="customer-phone">Phone Number</label>
+                                  <input type="text" id="customer-phone" placeholder="Contact number">
+                              </div>
+                              <div class="input-group">
+                                  <label for="purchase-item">Item Purchased</label>
+                                  <input type="text" id="purchase-item" placeholder="Specific item name">
+                              </div>
+                              <div class="input-group">
+                                  <label for="purchase-date">Purchase Date</label>
+                                  <input type="date" id="purchase-date">
+                              </div>
+                              <div class="input-group">
+                                  <label for="item-price">Price (₹)</label>
+                                  <input type="number" id="item-price" placeholder="Transaction amount">
+                              </div>
+                          </div>
+                          <button id="add-customer-btn" class="btn-primary" style="width: 100%; margin-top: 10px;">Add Customer Record</button>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Customer Portfolio Table Card -->
+              <div class="dashboard-card">
+                  <div class="card-header" style="display: flex; gap: 20px;">
+                      <h3 style="white-space: nowrap;">Customer Ledger</h3>
+                      <div class="search-bar" style="margin: 0; flex-grow: 1;">
+                          <input type="text" id="search" placeholder="Search by name, phone, or item..." style="width: 100%; padding: 8px 16px; border-radius: 6px; border: 1px solid var(--border-color);">
+                      </div>
+                  </div>
+                  <div class="card-body table-responsive">
+                      <table id="customer-table">
+                          <thead>
+                              <tr>
+                                  <th>Name</th>
+                                  <th>Gender</th>
+                                  <th>Phone</th>
+                                  <th>Item</th>
+                                  <th>Purchase Date</th>
+                                  <th>Price (₹)</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <!-- Customer records dynamically added here -->
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+
+          </div>
+      </main>
   </div>
 
   <script src="script.js"></script>
+  <script>
+      function logoutAdmin() {
+          localStorage.removeItem("isLoggedIn");
+          window.location.href = "../admin.html";
+      }
+
+      function checkAuth() {
+          if (localStorage.getItem('isLoggedIn') !== 'true') {
+              window.location.href = "../admin.html";
+          }
+      }
+      checkAuth();
+
+      // Hook up customer count
+      function updateCustomerMetrics() {
+          const tbody = document.querySelector('#customer-table tbody');
+          if(tbody) {
+            document.getElementById('metricTotalCustomers').textContent = tbody.children.length;
+          }
+      }
+
+      // We overwrite or wrap the existing button click / loading to update metrics
+      setTimeout(updateCustomerMetrics, 500);
+      const btn = document.getElementById('add-customer-btn');
+      if(btn) {
+          btn.addEventListener('click', () => { setTimeout(updateCustomerMetrics, 300); });
+      }
+  </script>
 </body>
 </html>
