@@ -60,6 +60,7 @@ function renderProduct(product, index, container) {
   // View button → single product page
   card.querySelector(`#viewId-${index}`).addEventListener('click', () => {
     window.location.href = `singleProduct.html?id=${product._id}`;
+    // Note: Vercel cleanUrls will also serve this at /singleProduct?id=...
   });
 
   // Add to cart

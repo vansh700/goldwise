@@ -1,5 +1,17 @@
 {
+  "cleanUrls": false,
   "rewrites": [
-    { "source": "/", "destination": "/Home.html" }
+    { "source": "/", "destination": "/Home.html" },
+    { "source": "/home", "destination": "/Home.html" },
+    { "source": "/singleProduct", "destination": "/singleProduct.html" },
+    { "source": "/singleproduct", "destination": "/singleProduct.html" },
+    { "source": "/product", "destination": "/Product.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/cart", "destination": "/cart.html" },
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/about", "destination": "/about_Us.html" },
+    { "source": "/gold-rate", "destination": "/Gold_Rate.html" },
+    { "source": "/checkout", "destination": "/checkout.html" }
   ]
 }
