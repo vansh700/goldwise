@@ -1,6 +1,7 @@
 /**
  * admin.js — GoldWise Admin Panel
- * All product CRUD now goes through the backend API, not localStorage.
+ * Product CRUD via backend API.
+ * Auth is handled by the password gate in admin.html (admin123).
  */
 
 const PRODUCTS_API = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
@@ -37,32 +38,18 @@ document.addEventListener('DOMContentLoaded', () => {
       updatedAt:   new Date().toISOString()
     };
 
-    const token = localStorage.getItem('gw_token');
-    if (!token) {
-      alert('You must be logged in as admin.');
-      return;
-    }
-
     try {
       let res;
       if (editingProductId) {
-        // Update existing product
         res = await fetch(`${PRODUCTS_API}/${editingProductId}`, {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(productData)
         });
       } else {
-        // Create new product
         res = await fetch(PRODUCTS_API, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(productData)
         });
       }
@@ -115,12 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', async (e) => {
         if (!confirm('Are you sure you want to delete this product?')) return;
         const id = e.target.dataset.id;
-        const token = localStorage.getItem('gw_token');
         try {
-          const res = await fetch(`${PRODUCTS_API}/${id}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
+          const res = await fetch(`${PRODUCTS_API}/${id}`, { method: 'DELETE' });
           if (!res.ok) throw new Error('Delete failed');
           loadProducts();
         } catch (err) {
