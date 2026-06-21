@@ -22,6 +22,13 @@ mongoose.connect(MONGODB_URI, {
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log("MongoDB connection error:", err));
 
+// ─── Metal Sub-Schema ────────────────────────────────────────────────────────
+const metalSchema = new mongoose.Schema({
+  karat:  String,
+  type:   String,
+  weight: Number
+}, { _id: false });
+
 // ─── Product Schema ──────────────────────────────────────────────────────────
 const productSchema = new mongoose.Schema({
   name:        { type: String, required: true, trim: true },
@@ -29,11 +36,7 @@ const productSchema = new mongoose.Schema({
   type:        { type: String, default: '' },
   category:    { type: String, default: '' },
   images:      [String],
-  metal: {
-    karat:  String,
-    type:   String,
-    weight: Number
-  },
+  metal:       metalSchema,
   weight:      Number,
   clarity:     String,
   description: String,
