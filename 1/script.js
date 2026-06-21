@@ -17,7 +17,9 @@ let purchases = [];
 let totalProfitLoss = 0;
 
 // Base API URL
-const API_URL = "http://localhost:5500/api/purchases";
+const API_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+  ? "http://localhost:5500/api/purchases"
+  : "https://goldwise-backend.onrender.com/api/purchases"; // REPLACE with your deployed backend URL
 
 // Fetch purchases from backend
 async function fetchPurchases() {

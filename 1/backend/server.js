@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const app = express();
-const JWT_SECRET = "goldwise_secret_key_2024"; // In production, use env variable
+const JWT_SECRET = process.env.JWT_SECRET || "goldwise_secret_key_2024"; // Set JWT_SECRET env var in production!
 
 // Middleware
 app.use(bodyParser.json());
