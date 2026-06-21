@@ -56,7 +56,8 @@ app.get("/api/products", async (req, res) => {
     const products = await Product.find(filter).sort({ createdAt: -1 });
     res.json(products);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching products" });
+    console.error("GET /api/products error:", err);
+    res.status(500).json({ message: "Error fetching products", error: err.message });
   }
 });
 
@@ -67,7 +68,8 @@ app.get("/api/products/:id", async (req, res) => {
     if (!product) return res.status(404).json({ message: "Product not found" });
     res.json(product);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching product" });
+    console.error("GET /api/products/:id error:", err);
+    res.status(500).json({ message: "Error fetching product", error: err.message });
   }
 });
 
@@ -237,7 +239,8 @@ app.get("/api/purchases", async (req, res) => {
     const purchases = await Purchase.find().sort({ saleDate: -1 });
     res.json(purchases);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching purchases" });
+    console.error("GET /api/purchases error:", error);
+    res.status(500).json({ message: "Error fetching purchases", error: error.message });
   }
 });
 
